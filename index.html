@@ -14,116 +14,22 @@
 
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/tools/astc.min.js?ver=1705475627457"></script>
-
-    <script>
-        $(function () {
-            window.modal = {
-                getModal: function (title = 'Заголовок', descr = 'Описание', modal_class = '') {
-                    var modal_template = `
-							<div class="modal_bg">
-								<div class="modal_body ${modal_class}">
-									<div class="modal_close"><i class="fa fa-times"></i></div>
-									<div class="modal_inner">
-										<div class="modal_title">${title}</div>
-										<div class="modal_descr">${descr}</div>
-									</div>
-								</div>
-							</div>`;
-                    $('body').append(modal_template);
-                    $('body').addClass('modal2');
-                },
-                init: function () {
-                    $('body').on('click', '.modal_close', function () {
-                        $(this).parent().parent().remove();
-                        $('body').removeClass('modal2');
-                    });
-                    $('body').on('click', '.modal_body', function (e) {
-                        e.stopPropagation();
-                    });
-                    $('body').on('click', '.modal_bg', function (e) {
-                        $(this).find('.modal_close').click();
-                    });
-                }
-            };
-            window.modal.init();
-        });
-    </script>
-
+    <script type="text/javascript" src="/js/modal.js?ver=100"></script>
     <script type="text/javascript" src="/js/underscore-min.js"></script>
-
-    <!--
-<script>window.tobiz_ = {
-        "project_id": "169580",
-        "project_domain": "",
-        "page_title": "\u0428\u0430\u0431\u043b\u043e\u043d \u0441\u0430\u0439\u0442\u0430 \u043e\u0441\u0442\u0435\u043e\u043f\u0430\u0442\u0430",
-        "page_dir": "",
-        "personal_seo_configs": "1",
-        "seo_title": "",
-        "seo_keywords": "",
-        "seo_description": "",
-        "OG_image": "",
-        "access_control": "0",
-        "valid_login": "",
-        "valid_password": "",
-        "pp": "0",
-        "rep_id": "350403",
-        "user_id": "2",
-        "owner_email": "mail@gmail.com",
-        "user_email": "templates@tobiz.net",
-        "user_pnf": "0.00",
-        "bs": true,
-        "t": "5",
-        "free": 0,
-        "products_on": "0",
-        "articles_on": "0",
-        "page_config": {
-            "title_font": "Montserrat, sans-serif",
-            "text_font": "Montserrat, sans-serif",
-            "menu_font": "Montserrat, sans-serif",
-            "btn_font": "Montserrat, sans-serif",
-            "txt_color": "#424242",
-            "title_color": "#424242",
-            "link_color": "#2a9e7d"
-        },
-        "showIntro": 0,
-        "w": 1,
-        "basket_conf": {
-            "project_id": "169580",
-            "action": "edit_basket_and_products",
-            "products_on": "0",
-            "products_currency": "\u0440\u0443\u0431.",
-            "basket_title": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0442\u043e\u0432\u0430\u0440\u043e\u0432",
-            "basket_descr": "",
-            "basket_free_delivery_from": "",
-            "basket_delivery_price": "",
-            "basket_promo_code": "",
-            "basket_promo_discount": "",
-            "basket_redirect_link": "",
-            "basket_mask_format": "",
-            "basket_btn_color": ""
-        }
-    }</script>
-    -->
-
-
     <script type="text/javascript" src="/js/script.min.js"></script>
     <script type="text/javascript" src="/js/auth.js"></script>
     <script type="text/javascript">tobiz.blocks = [];
     console.log({ tobiz });</script>
-
+    <script type="text/javascript" src="/js/app.js?ver=100"></script>
 
     <meta content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-
-
     <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Врач остеопат"/>
+    <meta name="keywords" content="Врач остеопат"/>
 
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
     <title>Врач остеопат</title>
 
     <!--<meta property="og:image" content="/img/500x0/ff5bd7ec01ce85729073201cac91a543.jpg">-->
-
-    <script type="text/javascript" src="/js/app.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,11 +101,9 @@
         }
     </style>
 
-
     <!--GetSpecificCSS -->
     <style>
     </style>
-
 
     <style>
         .border {
@@ -225,7 +129,7 @@
                         <li class="level0"><a href="#anchor1" title="Контакты">Контакты</a></li>
                         <!--<li class="level0"><a href="#anchor2" title="Опыт работы">Опыт работы</a></li>-->
                         <!--<li class="level0"><a href="#anchor3" title="Образование">Образование</a></li>-->
-                        <li class="level0"><a href="#anchor4" title="Примеры работ">Примеры работ</a></li>
+                        <li class="level0"><a href="#anchor4" title="Как проходит массаж">Примеры работ</a></li>
                         <li class="level0"><a href="#anchor5" title="Контакты">Задайте вопрос</a></li>
                     </ul>
                 </div>
@@ -252,7 +156,7 @@
                                     1-2 предложений. Для редактирования текста просто кликните в это поле.</span>
                         </p>
                     </div>
-                    <a href="#anchor4" class="btn1 " data-hcolor="#2a9e7d"
+                    <a href="#" class="btn1 " data-hcolor="#2a9e7d"
                        style="color:#79b39d; border-radius: 2em; box-shadow: 0; font-size: 18px">Записаться</a>
                 </div>
             </div>
@@ -355,7 +259,7 @@
                 name="anchor4"></a>
             <div class="section_inner all_border width1170">
                 <div class="title"><span style="font-size:40px"><strong><span style="font-family:montserrat"><span
-                        style="color:#79b39d;">К</span>ак проходит работа</span></strong></span></div>
+                        style="color:#79b39d;">К</span>ак проходит массаж</span></strong></span></div>
                 <div class="sub_title"><span style="font-size:18px"></span><span style="font-size:20px;">Несколько слов
                             о том, как я работаю</span><span style="font-size:18px"></span></div>
                 <div class="arr1">
