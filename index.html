@@ -109,7 +109,7 @@
     <script type="text/javascript" src="/js/script.min.js"></script>
     <script type="text/javascript" src="/js/auth.js"></script>
     <script type="text/javascript">tobiz.blocks = [];
-    console.log({tobiz});</script>
+    console.log({ tobiz });</script>
 
 
     <meta content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
@@ -121,371 +121,19 @@
     <meta name="keywords" content=""/>
     <title>Врач остеопат</title>
 
-    <meta property="og:image" content="/img/500x0/ff5bd7ec01ce85729073201cac91a543.jpg">
+    <!--<meta property="og:image" content="/img/500x0/ff5bd7ec01ce85729073201cac91a543.jpg">-->
 
-    <script type="text/javascript">
-        $(function () {
-
-
-            (function () {
-                var app = {
-                    cookie: {
-                        set: function (name, value, days) {
-                            var expires = "";
-                            if (days) {
-                                var date = new Date();
-                                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                                expires = "; expires=" + date.toUTCString();
-                            }
-                            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-                        },
-                        get: function (name) {
-                            var nameEQ = name + "=";
-                            var ca = document.cookie.split(';');
-                            for (var i = 0; i < ca.length; i++) {
-                                var c = ca[i];
-                                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-                            }
-                            return null;
-                        },
-                        remove: function (name) {
-                            document.cookie = name + '=; Max-Age=-99999999;';
-                        }
-                    },
-                    url: {
-                        getParams: function (u) {
-                            var url = u || window.location.search,
-                                queryString = url.split('?')[1],
-                                urlParams = {};
-                            url = url.split('#')[0];
-                            if (!queryString) {
-                                if (url.search('=') !== false) {
-                                    queryString = url;
-                                }
-                            }
-                            if (queryString) {
-                                var keyValuePairs = queryString.split('&')
-                                for (var i = 0; i < keyValuePairs.length; i++) {
-                                    var keyValuePair = keyValuePairs[i].split('=')
-                                    var paramName = keyValuePair[0]
-                                    var paramValue = keyValuePair[1] || ''
-                                    urlParams[paramName] = decodeURIComponent(paramValue.replace(/\+/g, ' '));
-                                }
-                            }
-                            return urlParams;
-                        }
-                    },
-                    int: function () {
-
-
-                        if (window.location.search == '?personal_data=2') {
-                            window.location.href = "/personal-data-2/";
-                        }
-                        if (window.location.search == '?personal_data=1') {
-                            window.location.href = "/personal-data-1/";
-                        }
-                        if (window.location.search == '?cookie-policy=1') {
-                            window.location.href = "/cookie-policy/";
-                        }
-                        //                                var get = $.extend({}, JSON.parse(app.cookie.get('tobiz_get_params')), app.url.getParams());
-                        //                                app.cookie.set('tobiz_get_params', JSON.stringify(get));
-
-
-                        if (app.cookie.get('tobiz_enter_point') === null) {
-                            app.cookie.set('tobiz_enter_point', window.location.href);
-                        }
-
-
-                    }
-                };
-
-                app.int();
-                window.app = app;
-
-            })();
-
-
-            $('body').on('submit', 'form[action="handler.php"]', function (event) {
-                event.preventDefault();
-
-
-                var send = 1;
-                if (!event.target.checkValidity()) {
-                    $('form input:visible[required="required"]').each(function () {
-                        if (!send) return false;
-                        if (!this.validity.valid) {
-                            $(this).focus();
-                            send = 0;
-                        }
-                    });
-                    if (!send) return;
-                }
-
-
-                var this_form = $(this);
-                if (!$(this).children("input[name=project_id]").length)
-                    $(this).prepend('<input type="hidden" name="project_id" value="' + window.tobiz.project_id + '">');
-                if (!$(this).children("input[name=page_id]").length)
-                    $(this).prepend('<input type="hidden" name="page_id" value="' + window.tobiz.rep_id + '">');
-                if (!$(this).children("input[name=referrer]").length)
-                    $(this).prepend('<input type="hidden" name="referrer" value="' + document.referrer + '">');
-                if (!$(this).children("input[name=user_id]").length)
-                    $(this).prepend('<input type="hidden" name="user_id" value="' + window.tobiz.user_id + '">');
-
-                if ($(this).find("[data-action]").size()) {
-                    $(this).prepend('<input type="hidden" name="product_name" value="' + $(this).find("[data-product_name]").data('product_name') + '">');
-                    $(this).prepend('<input type="hidden" name="action" value="' + $(this).find("[data-action]").data('action') + '">');
-                    $(this).prepend('<input type="hidden" name="amount" value="' + $(this).find("[data-action]").data('amount') + '">');
-                    $(this).prepend('<input type="hidden" name="url" value="' + $(this).find("[data-action]").data('url') + '">');
-                } else {
-                    console.log('not found');
-                }
-
-                if (typeof (VK) != 'undefined' && $(this).find("[data-vk_pixel]").size() && $(this).find("[data-vk_pixel]").data('vk_pixel') != 'undefined' && $(this).find("[data-vk_pixel]").data('vk_pixel') != '') {
-                    console.log('vk_pixel_event: ' + $(this).find("[data-vk_pixel]").data('vk_pixel'));
-                    VK.Retargeting.Event($(this).find("[data-vk_pixel]").data('vk_pixel'));
-                } else {
-                    console.log('vk_pixel not found');
-                }
-
-
-                if (typeof (gtag) != 'undefined' && $(this).find("[data-gtag_event]").size() && $(this).find("[data-gtag_event]").data('gtag_event') != 'undefined' && $(this).find("[data-gtag_event]").data('gtag_event') != '') {
-                    console.log('gtag_event: ' + $(this).find("[data-gtag_event]").data('gtag_event'));
-                    gtag('event', $(this).find("[data-gtag_event]").data('gtag_event') + '');
-                } else {
-                    console.log('gtag_event not found');
-                }
-
-
-                if (typeof (fbq) != 'undefined' && $(this).find("[data-fb_pixel]").size() && $(this).find("[data-fb_pixel]").data('fb_pixel') != 'undefined' && $(this).find("[data-fb_pixel]").data('fb_pixel') != '') {
-                    console.log('fb_pixel_event: ' + $(this).find("[data-fb_pixel]").data('fb_pixel'));
-                    fbq('trackCustom', $(this).find("[data-fb_pixel]").data('fb_pixel'));
-                } else {
-                    console.log('fb_pixel not found');
-                }
-
-
-                var formData = new FormData($(this)[0]);
-                var this_block = $(this).closest('.section');
-                $.ajax({
-                    dataType: "json",
-                    type: "POST",
-                    url: "/handler.php",
-                    data: formData,
-                    //                            async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                }).done(function (data) {
-                    if (data.status == 'OK') {
-                        window.modal.getModal('Успех', data.msg);
-                        //alert(data.msg);
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        window.basket.clean();
-                        window.basket.hideForm();
-
-                        $('.popup_form').hide();
-                    }
-                    if (data.status == 'ERROR') {
-                        window.modal.getModal('Ошибка', data.msg);
-                        //alert(data.msg);
-                    }
-                    if (data.status == 'JC') {
-
-                        $('body').append(data.form);
-                        $('#jc_form').submit();
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                    }
-
-                    if (data.status == 'PAYEER') {
-                        $('body').append(data.form);
-                        $('#payeer_form').submit();
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                    }
-
-
-                    if (data.status == 'SR') {
-                        $('body').append(data.form);
-                        $('#sr_form').submit();
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                    }
-                    if (data.status == 'GR') {
-                        $('body').append(data.form);
-                        $('#gr_form').submit();
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                    }
-                    if (data.status == 'RK') {
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        window.location.href = data.url;
-                    }
-                    if (data.status == 'SB' || data.status == 'YooKassa') {
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-
-                        window.basket.clean();
-                        window.basket.hideForm();
-
-                        window.location.href = data.link;
-                    }
-                    if (data.status == 'INTERKASSA') {
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        window.location.href = data.url;
-                    }
-                    if (data.status == 'INTERKASSA') {
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        window.location.href = data.url;
-                    }
-
-                    if (data.status == 'tinkoff') {
-
-
-                        window.location.href = data.link;
-                    }
-
-
-                    if (data.status == 'redirect') {
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-
-
-                        window.basket.clean();
-                        window.basket.hideForm();
-                        //                                window.basket.renderForm();
-                        //                                window.basket.renderBtn();
-                        //                                window.basket.hideBtn();
-                        $('.popup_form').hide();
-
-                        window.location.href = data.url;
-                    }
-                    if (data.status == 'thanks') {
-                        this_block.find('.popup_thanks').show();
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        $('.popup_form').hide();
-                        this_block.find('.extra_info_block_wrapper').hide();
-                    }
-
-                    if (data.status == 'preorder_thanks') {
-
-
-                        $('.popup_thanks').show();
-                        $('.popup_form').hide();
-                    }
-
-                    if (data.status == 'flexThanks') {
-
-                        let thanksTitle = $('body').find('input[data-action="flexThanks"]').data('thanks_title');
-                        let thanksText = $('body').find('input[data-action="flexThanks"]').data('thanks_text');
-
-                        if (!thanksTitle || typeof (thanksTitle) == 'undefined') {
-                            thanksTitle = 'Спасибо!';
-                        }
-                        if (!thanksText || typeof (thanksText) == 'undefined') {
-                            thanksTitle = 'Сообщение успешно отправлено';
-                        }
-
-                        $('body').find('.modal_close').click();
-
-                        window.modal.getModal('Спасибо', 'Сообщение успешно отправлено.');
-                    }
-                    if (data.status == 'thanks_order_complete') {
-                        this_block.find('.popup_thanks').show();
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        window.basket.clean();
-                        window.basket.hideForm();
-                        window.basket.renderForm();
-                        window.basket.renderBtn();
-                        window.basket.hideBtn();
-                        //alert('Спасибо ваш заказ успешно оформлен!');
-                        $('.popup_form').hide();
-                        window.basket.renderThanks();
-                    }
-                    if (data.status == 'already_sent') {
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        $('.popup_form').hide();
-                        window.modal.getModal('Ошибка', data.msg);
-                        //alert(data.msg);
-                    }
-                }).error(function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.status);
-                    console.log(thrownError)
-                });
-                console.log('wrf');
-                return false;
-            })
-            $('body').on('submit', 'form.add_comment', function (event) {
-                event.preventDefault();
-                var this_form = $(this);
-                var formData = new FormData($(this)[0]);
-                var this_block = $(this).closest('.section');
-                $.ajax({
-                    dataType: "json",
-                    type: "POST",
-                    url: "/add_comment.php",
-                    data: formData,
-                    //                            async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                }).done(function (data) {
-                    if (data.status == 'OK') {
-                        this_form.each(function () {
-                            $(this)[0].reset();
-                        })
-                        window.modal.getModal('Успех', data.msg);
-                        //alert(data.msg);
-                        window.location.href = "#comments";
-                        window.location.reload();
-
-
-                    }
-                    if (data.status == 'ERROR') {
-                        window.modal.getModal('Ошибка', data.msg);
-                    }
-
-                }).error(function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.status);
-                    console.log(thrownError)
-                });
-                return false;
-            })
-
-
-        })
-    </script>
+    <script type="text/javascript" src="/js/app.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!--<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,700;1,300;1,700&family=Crushed&family=Lilita+One&family=Montserrat+Alternates:ital,wght@0,300;0,500;1,300;1,500&family=Nanum+Brush+Script&family=Neucha&family=Open+Sans+Condensed:ital,wght@0,300;0,500;0,600;0,700;1,300&family=Open+Sans:ital,wght@0,300;0,500;0,600;0,700;1,300;1,700&family=PT+Sans+Caption:wght@400;700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Poiret+One&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,700&family=Roboto:ital,wght@0,300;0,500;1,300;1,500&family=Ruslan+Display&family=Russo+One&family=Ubuntu+Condensed&family=Ubuntu:ital,wght@0,300;0,500;1,300;1,500&family=Andika&family=Audiowide&family=Bellota:ital,wght@0,300;0,700;1,300;1,700&family=Caveat:wght@400;600&family=Cormorant+SC:wght@300;500&family=Cormorant+Upright:wght@300;500&family=Lobster&family=Nunito:ital,wght@0,300;0,600;1,300;1,600&family=Oswald:wght@300;500&family=Pacifico&family=Play:wght@400;700&family=Prosto+One&family=Raleway:ital,wght@0,300;0,500;1,300;1,500&family=Reggae+One&family=Rubik+Mono+One&family=PT+Sans+Narrow:wght@400;700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Alegreya+Sans:ital,wght@0,300;0,500;1,300;1,500&family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,700;1,300;1,700&family=Crushed&family=Lilita+One&family=Montserrat+Alternates:ital,wght@0,300;0,500;1,300;1,500&family=Nanum+Brush+Script&family=Neucha&family=Open+Sans+Condensed:ital,wght@0,300;0,500;0,600;0,700;1,300&family=Open+Sans:ital,wght@0,300;0,500;0,600;0,700;1,300;1,700&family=PT+Sans+Caption:wght@400;700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Poiret+One&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,700&family=Roboto:ital,wght@0,300;0,500;1,300;1,500&family=Ruslan+Display&family=Russo+One&family=Ubuntu+Condensed&family=Ubuntu:ital,wght@0,300;0,500;1,300;1,500&family=Andika&family=Audiowide&family=Bellota:ital,wght@0,300;0,700;1,300;1,700&family=Caveat:wght@400;600&family=Cormorant+SC:wght@300;500&family=Cormorant+Upright:wght@300;500&family=Lobster&family=Nunito:ital,wght@0,300;0,600;1,300;1,600&family=Oswald:wght@300;500&family=Pacifico&family=Play:wght@400;700&family=Prosto+One&family=Raleway:ital,wght@0,300;0,500;1,300;1,500&family=Reggae+One&family=Rubik+Mono+One&family=PT+Sans+Narrow:wght@400;700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Alegreya+Sans:ital,wght@0,300;0,500;1,300;1,500&family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
     <!-- Google Fonts - Selective Loader -->
     <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
             rel="stylesheet">
     <script>console.log("Подключаемые шрфиты: Montserrat")</script>
+
     <style id="page_style">
         body,
         #wrapper {
@@ -562,565 +210,458 @@
 </head>
 
 <body class="editor_false lang_ru">
-<div id="wrapper" class="">
-    <div class="section section116 fixed_top" style="background-color:#f8f8f8;padding-top:0px;padding-bottom:0px;"
-         data-id="3207506" id="b_3207506"><a name="a_2410598"></a>
-        <div class="section_inner">
-            <div style="color: green;background-color:#fff" class="menu-toogler square new_burger">
-                <svg>
-                    <use xlink:href="https://169580.lp.tobiz.net/img/menu_burger.svg#menu"></use>
-                </svg>
-            </div>
-            <div style="color:#333333;background-color:#f8f8f8;font-size:18px" class="menu1 colorize ">
-                <ul>
-                    <li class="level0"><a href="#anchor1" title="Обо мне">Обо мне</a></li>
-                    <!--<li class="level0"><a href="#anchor2" title="Опыт работы">Опыт работы</a></li>-->
-                    <!--<li class="level0"><a href="#anchor3" title="Образование">Образование</a></li>-->
-                    <li class="level0"><a href="#anchor4" title="Примеры работ">Примеры работ</a></li>
-                    <li class="level0"><a href="#anchor5" title="Контакты">Контакты</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
 
-    <div class="section section1154 clip_none" data-hcolor="#ff6600"
-         style="background-color:#ffffff;background-image:url(https://169580.lp.tobiz.net/img/1920x0/ff5bd7ec01ce85729073201cac91a543.jpg);padding-top:250px;padding-bottom:80px;"
-         data-id="3207507" id="b_3207507"><a name="a_2409390"></a>
-        <div class="back_dark" style="opacity:0.57;background:linear-gradient(to bottom,#000000 0%,#000000 100%)">
-        </div>
-        <div class="section_inner all_border width1170">
-            <div class="headliner">
-                <div class="title" style="margin-bottom:24px;font-weight:600">
-                    <div><strong><span style="font-size:66px"><span style="color:#FFFFFF"><span
-                            style="font-family:montserrat"></span></span><span
-                            style="color:#79b39d;"><span style="font-family:montserrat">К</span></span><span
-                            style="color:#FFFFFF"><span
-                            style="font-family:montserrat">валифицированный&nbsp;остеопат</span></span></span></strong>
-                    </div>
+    <div id="wrapper" class="">
+        <div class="section section116 fixed_top" style="background-color:#f8f8f8;padding-top:0px;padding-bottom:0px;"
+             data-id="3207506" id="b_3207506"><a name="a_2410598"></a>
+            <div class="section_inner">
+                <div style="color: green;background-color:#fff" class="menu-toogler square new_burger">
+                    <svg>
+                        <use xlink:href="https://169580.lp.tobiz.net/img/menu_burger.svg#menu"></use>
+                    </svg>
                 </div>
-                <div class="sub_title" style="margin-bottom:24px;font-weight:400">
-                    <p><span style="font-size:24px">Напишите краткие, но интересные подробности о себе. Достаточно
-								1-2 предложений. Для редактирования текста просто кликните в это поле.</span>
-                    </p>
-                </div>
-                <a href="#anchor4" class="btn1 " data-hcolor="#2a9e7d"
-                   style="color:#79b39d; border-radius: 2em; box-shadow: 0; font-size: 18px">Записаться</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="section section117 clip_none bg_text"
-         style="background-color:#f8f8f8;padding-top:80px;padding-bottom:80px;" data-id="3207508" id="b_3207508"><a
-            name="anchor1"></a>
-        <div class="section_inner width1170">
-            <div class="arr_wrapper">
-                <div class="arr1">
-                    <div data-link="" class="col_2 image1 border image_size_840x1200 border1"><img data-lazy='1'
-                                                                                                   data- data-lazy='1'
-                                                                                                   data-src="https://169580.lp.tobiz.net/img/420x600/95808bcf59dfa06960a56ebf01dd53ba.jpg"
-                                                                                                   srcset="https://169580.lp.tobiz.net/img/420x600/95808bcf59dfa06960a56ebf01dd53ba.jpg 1x, https://169580.lp.tobiz.net/img/840x1200/95808bcf59dfa06960a56ebf01dd53ba.jpg 2x"
-                                                                                                   width="420px"
-                                                                                                   height="600px"
-                                                                                                   loading="lazy"></div>
-                    <div class="col_2">
-                        <div class="descr1">
-                            <p><span style="font-size:40px"><strong><span style="color:#79b39d;">Н</span>есколько
-											слов обо мне</strong></span></p>
-                        </div>
-                        <div class="txt1"><span style="color:#333333"><strong></strong></span>
-                            <p><span style="font-size:17px;">Раздел рекомендуем не называть «О себе», а разделить
-										его на несколько блоков:</span>
-                            </p>
-                            <ul>
-                                <li><span style="font-size:17px;">ключевые навыки и компетенции — описывают
-											профессиональный опыт, знания и умения;</span>
-                                </li>
-                                <li><span style="font-size:17px;">личностные качества — описывает характеристики
-											соискателя;</span>
-                                </li>
-                                <li><span style="font-size:17px;">дополнительная информация.</span></li>
-                            </ul>
-                            <p><span style="font-size:17px;">Рекрутеры рекомендуют обязательно заполнять эти блоки и
-										внимательно продумывать, что написать. Правильно заполненное резюме поможет
-										сделать выводы о вас не только, как о профессионале, но и личности в
-										целом.</span>
-                            </p>
-                            <p><span style="font-size:17px;"><br></span></p>
-                            <p><span style="font-size:17px;">В целом резюме преследует только одну цель –
-										заинтересовать потенциального работодателя, чтобы получить заветную вакансию.
-										Особенно важно заполнить раздел «О себе» тем, у кого трудового опыта не
-										достаточно.</span>
-                            </p>
-                            <p><span style="font-size:17px;"><br></span></p>
-                            <p><span style="font-size:17px;">Тогда нужно подключить все свое обаяние и сделать упор
-										на личные качества, которые могут стать бесценными для получения этой
-										работы.&nbsp;Обычно набор характеристик, которые содержатся в этом разделе
-										резюме, можно назвать стандартным.</span>
-                            </p><span style="color:#333333"></span>
-                        </div>
-                    </div>
+                <div style="color:#333333;background-color:#f8f8f8;font-size:18px" class="menu1 colorize ">
+                    <ul>
+                        <li class="level0"><a href="#anchor1" title="Обо мне">Обо мне</a></li>
+                        <!--<li class="level0"><a href="#anchor2" title="Опыт работы">Опыт работы</a></li>-->
+                        <!--<li class="level0"><a href="#anchor3" title="Образование">Образование</a></li>-->
+                        <li class="level0"><a href="#anchor4" title="Примеры работ">Примеры работ</a></li>
+                        <li class="level0"><a href="#anchor5" title="Контакты">Контакты</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div data-hcolor="#ff6600"
-         class="section section130 clip_none s_mode_c_icon mobile_col2 inner_width transparent_ico"
-         style="background-color:#ffffff;padding-top:80px;padding-bottom:80px;--tiles_radius:0px;--tiles_shadow:none;--bg_color:#ffffff;"
-         data-id="3207509" id="b_3207509"><a name="a_2410715"></a>
-        <div class="section_inner all_border"
-             style="--icon_size:64px;--btn_fweight:300;--btn_fsize:18px;--item_title_fweight:400;">
-            <div class="title"><span style="font-size:40px"><strong><span style="font-family:montserrat"><span
-                    style="color:#79b39d;">П</span>рофессиональные навыки</span></strong></span></div>
-            <div class="sub_title"><span style="font-size:20px">Какими профессиональными навыками я владею</span>
+        <div class="section section1154 clip_none" data-hcolor="#ff6600"
+             style="background-color:#ffffff;background-image:url(https://169580.lp.tobiz.net/img/1920x0/ff5bd7ec01ce85729073201cac91a543.jpg);padding-top:250px;padding-bottom:80px;"
+             data-id="3207507" id="b_3207507"><a name="a_2409390"></a>
+            <div class="back_dark" style="opacity:0.57;background:linear-gradient(to bottom,#000000 0%,#000000 100%)">
             </div>
-            <div class="catalog_items short_text count3 c_icon ">
-                <div class="arr1">
-                    <div class="col_4">
-                        <div class="c_ico1 radius " style="background-image:url(/cicons/015-smartwatch.svg)"></div>
-                        <div class="title1"><span style="font-size:20px">Квалификация в области остеопатии</span>
+            <div class="section_inner all_border width1170">
+                <div class="headliner">
+                    <div class="title" style="margin-bottom:24px;font-weight:600">
+                        <div><strong><span style="font-size:66px"><span style="color:#FFFFFF"><span
+                                style="font-family:montserrat"></span></span><span
+                                style="color:#79b39d;"><span style="font-family:montserrat">К</span></span><span
+                                style="color:#FFFFFF"><span
+                                style="font-family:montserrat">валифицированный&nbsp;остеопат</span></span></span></strong>
                         </div>
                     </div>
-                </div>
-                <div class="arr1">
-                    <div class="col_4">
-                        <div class="c_ico1 radius " style="background-image:url(/cicons/044-mp3-player.svg)"></div>
-                        <div class="title1"><span style="font-size:20px">Снимание</span>
-                            <div><span style="font-size:20px">напряжения в теле</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="arr1">
-                    <div class="col_4">
-                        <div class="c_ico1 radius " style="background-image:url(/cicons/026-browser.svg)"></div>
-                        <div class="title1"><span style="font-size:20px">Применение мягких методов
-									воздействия</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- О моем опыте работы
-    <div class="section clip_none section417" style="background-color:#f8f8f8;padding-top:80px;padding-bottom:80px;"
-         data-id="3207510" id="b_3207510"><a name="anchor2"></a>
-        <div class="section_inner">
-            <div class="title"><span style="font-size:40px;"><strong><span style="font-family:montserrat">О моем опыте работы</span></strong></span>
-            </div>
-            <div class="sub_title"><span style="font-size:20px">Несколько слов о том, где я работал остеопатом</span>
-            </div>
-            <div class="arr1">
-                <div class="line" style="background-color:#79b39d"></div>
-                <div class="mdico" style="background-color:#79b39d"><i class="md svg-icon-number-one-in-a-circle"></i>
-                </div>
-                <div class="col1 col_2">
-                    <div class="title"><strong><span style="font-size:20px">Центр здоровья</span></strong></div>
-                    <div class="descr"><span style="font-size:17px;">Я помог разработать стратегию бренда, чтобы улучшить взаимодействие с клиентами. Это привело к увеличению количества заявок, что, в свою очередь, привело к увеличению выручки на 20%.</span><br>
-                    </div>
-                </div>
-                <div class="col2 col_2">
-                    <div class="extra_descr"><br></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="arr1">
-                <div class="line" style="background-color:#79b39d"></div>
-                <div class="mdico" style="background-color:#79b39d"><i class="md svg-icon-number-two-in-a-circle"></i>
-                </div>
-                <div class="col1 col_2">
-                    <div class="title"><strong><span style="font-size:20px">Многопрофильная клиника</span></strong><span
-                            style="font-size:20px"><strong></strong></span></div>
-                    <div class="descr"><span style="font-size:17px">Я помог разработать стратегию бренда, чтобы улучшить взаимодействие с клиентами. Это привело к увеличению количества заявок, что, в свою очередь, привело к увеличению выручки на 20%.</span>
-                    </div>
-                </div>
-                <div class="col2 col_2">
-                    <div class="extra_descr"><br></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="arr1">
-                <div class="line" style="background-color:#79b39d"></div>
-                <div class="mdico" style="background-color:#79b39d"><i class="md svg-icon-number-three-in-a-circle"></i>
-                </div>
-                <div class="col1 col_2">
-                    <div class="title"><strong><span style="font-size:20px">Санаторий</span></strong></div>
-                    <div class="descr"><span style="font-size:17px">Я помог разработать стратегию бренда, чтобы улучшить взаимодействие с клиентами. Это привело к увеличению количества заявок, что, в свою очередь, привело к увеличению выручки на 20%.</span>
-                    </div>
-                </div>
-                <div class="col2 col_2">
-                    <div class="extra_descr"><br></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </div>
-    </div>
-    -->
-
-    <!-- Несколько слов о том, где я учился
-    <div class="section clip_none section1149 mode_2"
-         style="background-color:#ffffff;padding-top:80px;padding-bottom:80px;" data-id="3207511" id="b_3207511"><a
-            name="anchor3"></a>
-        <div class="section_inner width1170 ">
-            <div class="title"><span style="font-size:40px"><strong><span style="font-family:montserrat"><span
-                    style="color:#79b39d;">И</span>нформация об образовании</span></strong></span></div>
-            <div class="sub_title"><span style="font-size:20px">Несколько слов о том, где я учился</span></div>
-            <div class="items column">
-                <div class="arr1">
-                    <div class="image1 "><img data-lazy='1' data- data-lazy='1'
-                                              data-src="https://169580.lp.tobiz.net/img/200x200/fd339008e55b6022e1e28faf22496b73.jpg"
-                                              srcset="https://169580.lp.tobiz.net/img/200x200/fd339008e55b6022e1e28faf22496b73.jpg 1x, https://169580.lp.tobiz.net/img/400x400/fd339008e55b6022e1e28faf22496b73.jpg 2x"
-                                              width="200px" height="200px" loading="lazy"></div>
-                    <div class="right">
-                        <div class="title1">Аккредитация</div>
-                        <div class="subtitle1">Академия бизнеса и маркетинга</div>
-                        <div class="txt1"><p><span style="font-size:17px;">Чтобы получить хорошее высшее образование, нужно обратить внимание на показатели, из которых оно складывается: это социальная и культурная среда учебного заведения, общий образовательный уровень на факультете, качество подготовки, а также перспективы после окончания вуза. В данной статье давайте рассмотрим, какие есть факультеты в институтах РФ &nbsp;и какие из них самые популярные.</span>
-                        </p></div>
-                    </div>
-                </div>
-                <div class="arr1">
-                    <div class="image1 "><img data-lazy='1' data- data-lazy='1'
-                                              data-src="https://169580.lp.tobiz.net/img/200x200/9e8f828eba41a1ddba38fca876124de7.jpg"
-                                              srcset="https://169580.lp.tobiz.net/img/200x200/9e8f828eba41a1ddba38fca876124de7.jpg 1x, https://169580.lp.tobiz.net/img/400x400/9e8f828eba41a1ddba38fca876124de7.jpg 2x"
-                                              width="200px" height="200px" loading="lazy" alt=""></div>
-                    <div class="right">
-                        <div class="title1">Курс лечебных методик</div>
-                        <div class="subtitle1">Академия бизнеса и маркетинга</div>
-                        <div class="txt1"><span style="font-size:17px">Чтобы получить хорошее высшее образование, нужно обратить внимание на показатели, из которых оно складывается: это социальная и культурная среда учебного заведения, общий образовательный уровень на факультете, качество подготовки, а также перспективы после окончания вуза. В данной статье давайте рассмотрим, какие есть факультеты в институтах РФ &nbsp;и какие из них самые популярные.</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="arr1">
-                    <div class="image1 "><img data-lazy='1' data- data-lazy='1'
-                                              data-src="https://169580.lp.tobiz.net/img/200x200/fb18688a08715797ce53edbe879cb40a.jpg"
-                                              srcset="https://169580.lp.tobiz.net/img/200x200/fb18688a08715797ce53edbe879cb40a.jpg 1x, https://169580.lp.tobiz.net/img/400x400/fb18688a08715797ce53edbe879cb40a.jpg 2x"
-                                              width="200px" height="200px" loading="lazy" alt=""></div>
-                    <div class="right">
-                        <div class="title1">Факультет медицинский</div>
-                        <div class="subtitle1">Академия бизнеса и маркетинга</div>
-                        <div class="txt1"><span style="font-size:17px">Чтобы получить хорошее высшее образование, нужно обратить внимание на показатели, из которых оно складывается: это социальная и культурная среда учебного заведения, общий образовательный уровень на факультете, качество подготовки, а также перспективы после окончания вуза. В данной статье давайте рассмотрим, какие есть факультеты в институтах РФ &nbsp;и какие из них самые популярные.</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
-
-    <!-- Заслуженный врач, лучший остеопат
-    <div class="section section1152 clip_none"style="background-color:#f8f8f8;padding-top:80px;padding-bottom:80px;" data-id="3207512" id="b_3207512"><a name="a_2410719"></a><div class="section_inner"><div class="title"><span style="font-size:40px"><strong><span style="font-family:montserrat"><span style="color:#79b39d;"></span>Мои заслуги</span></strong></span></div><div class="sub_title"><span style="font-size:20px">Заслуженный врач, лучший остеопат&nbsp;</span></div><div class="images"><div class="image_box arr1"><div class="img1116" style="background-image:url(https://169580.lp.tobiz.net/img/0x150/1f002714b541777b5b038e895c484cb7.jpg)"></div><div class="overlay_image_box" data-link-target="" data-link=""></div></div><div class="image_box arr1"><div class="img1116" style="background-image:url(https://169580.lp.tobiz.net/img/0x150/17c7367660751c2ede3bfc047d1bcfd2.jpg)"></div><div class="overlay_image_box" data-link-target="" data-link=""></div></div><div class="image_box arr1"><div class="img1116" style="background-image:url(/img/0x150/989e9134ca71c74bf05797af73d5ed18.jpg)"></div><div class="overlay_image_box" data-link-target="" data-link=""></div></div><div class="image_box arr1"><div class="img1116" style="background-image:url(/img/0x150/989e9134ca71c74bf05797af73d5ed18.jpg)"></div><div class="overlay_image_box" data-link-target="" data-link=""></div></div><div class="image_box arr1"><div class="img1116" style="background-image:url(/img/0x150/989e9134ca71c74bf05797af73d5ed18.jpg)"></div><div class="overlay_image_box" data-link-target="" data-link=""></div></div></div></div></div>
-    -->
-
-    <div class="clip_none section section250 mode_2"
-         style="background-color:#ffffff;padding-top:80px;padding-bottom:80px;" data-id="3207513" id="b_3207513"><a
-            name="anchor4"></a>
-        <div class="section_inner all_border width1170">
-            <div class="title"><span style="font-size:40px"><strong><span style="font-family:montserrat"><span
-                    style="color:#79b39d;">К</span>ак проходит работа</span></strong></span></div>
-            <div class="sub_title"><span style="font-size:18px"></span><span style="font-size:20px;">Несколько слов
-						о том, как я работаю</span><span style="font-size:18px"></span></div>
-            <div class="arr1">
-                <div class="col_2">
-                    <div data-link="" class="image1 "><img data-lazy='1' data- data-lazy='1'
-                                                           data-src="https://169580.lp.tobiz.net/img/565x400/a1be3393c684d5462095b1b9210927ab.jpg"
-                                                           width="565px" height="400px" loading="lazy"></div>
-                    <div class="overlay_image_box">
-                        <div class="overlay_image_title title1"><span style="color:#424242"><span
-                                style="font-size:20px"><strong>Осмотр тела пациента</strong></span></span></div>
-                        <div class="overlay_image_subtitle subtitle1">
-                            <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
-										– какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
-										случае на Вас работает количество материалов, качество может быть ниже уровня
-										гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
-										много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
-										тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
-										выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
-										лучше.</span><span style="font-size:17px"></span><br></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col_2 last">
-                    <div data-link="" class="image2 "><img data-lazy='1' data- data-lazy='1'
-                                                           data-src="https://169580.lp.tobiz.net/img/565x400/8401dd1295f83ffdbf7e77eae3f1cbe3.jpg"
-                                                           width="565px" height="400px" loading="lazy" alt=""></div>
-                    <div class="overlay_image_box">
-                        <div class="overlay_image_title title2"><span style="color:#424242"><span
-                                style="font-size:20px"><strong>Сбор данных</strong></span></span></div>
-                        <div class="overlay_image_subtitle subtitle2"><span style="font-size:17px"></span>
-                            <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
-										– какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
-										случае на Вас работает количество материалов, качество может быть ниже уровня
-										гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
-										много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
-										тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
-										выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
-										лучше.</span>
-                            </p><span style="font-size:17px"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="arr1">
-                <div class="col_2">
-                    <div data-link="" class="image1 "><img data-lazy='1' data- data-lazy='1'
-                                                           data-src="https://169580.lp.tobiz.net/img/565x400/21fd408eab0032b543bf087539bd9acc.jpg"
-                                                           width="565px" height="400px" loading="lazy" alt=""></div>
-                    <div class="overlay_image_box">
-                        <div class="overlay_image_title title1"><span style="color:#424242"><span
-                                style="font-size:20px"><strong>Массаж</strong></span></span></div>
-                        <div class="overlay_image_subtitle subtitle1">
-                            <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
-										– какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
-										случае на Вас работает количество материалов, качество может быть ниже уровня
-										гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
-										много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
-										тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
-										выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
-										лучше.</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col_2 last">
-                    <div data-link="" class="image2 "><img data-lazy='1' data- data-lazy='1'
-                                                           data-src="https://169580.lp.tobiz.net/img/565x400/ab304877a07d42bdf297350df3ce7bf6.jpg"
-                                                           width="565px" height="400px" loading="lazy" alt=""></div>
-                    <div class="overlay_image_box">
-                        <div class="overlay_image_title title2"><span style="color:#424242"><span
-                                style="font-size:20px"><strong>Использование техник</strong></span></span></div>
-                        <div class="overlay_image_subtitle subtitle2">
-                            <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
-										– какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
-										случае на Вас работает количество материалов, качество может быть ниже уровня
-										гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
-										много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
-										тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
-										выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
-										лучше.</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </div>
-
-    <div data-hcolor="#ff6600" data-autoslide="0" class="section section126 size_900x700 clip_none"
-         style="background-color:#f8f8f8;padding-top:80px;padding-bottom:40px;" data-id="3207514" id="b_3207514"><a
-            name="anchor5"></a>
-        <div class="section_inner all_border width1170">
-            <div class="arr1">
-                <div data-link="" class="image1 size_900x700"><img data-lazy='1' data- data-lazy='1'
-                                                                   data-src="https://169580.lp.tobiz.net/img/450x350/627f0ed91e1ed6701e9e0ec6af4277fd.jpg"
-                                                                   srcset="https://169580.lp.tobiz.net/img/450x350/627f0ed91e1ed6701e9e0ec6af4277fd.jpg 1x, https://169580.lp.tobiz.net/img/900x700/627f0ed91e1ed6701e9e0ec6af4277fd.jpg 2x"
-                                                                   width="450px" height="350px"></div>
-                <div class="right size_900x700">
-                    <div class="title1">
-                        <div><span style="color:#424242"><strong><span
-                                style="font-size:40px"></span></strong></span><span
-                                style="color:#79b39d;"><strong><span
-                                style="font-size:40px">З</span></strong></span><span
-                                style="color:#424242"><strong><span style="font-size:40px">адайте мне
-											вопрос</span></strong></span></div>
-                    </div>
-                    <div class="txt1">
-                        <p><span style="font-size:17px">Иногда претенденты на должность выбиваются из шаблонных
-									вариантов, но это чаще всего является выгодным для желающих получить работу,
-									связанную с креативным мышлением или тем, кто хочет выделиться на фоне других заявок
-									на вакансию. Важно в этом случае соблюдать грань и не перейти ее.&nbsp;Каждый для
-									себя определяет самостоятельно, что хочет указать в разделе «О себе». Но рекрутеры
-									советуют избегать некоторых фраз, которых следует избегать. Правильные формулировки
-									и неверные мы собрали в таблицу.</span>
+                    <div class="sub_title" style="margin-bottom:24px;font-weight:400">
+                        <p><span style="font-size:24px">Напишите краткие, но интересные подробности о себе. Достаточно
+                                    1-2 предложений. Для редактирования текста просто кликните в это поле.</span>
                         </p>
                     </div>
-                    <div class="btn1 surround " data-hcolor="#2a9e7d"
-                         style="background-color:#79b39d; border-radius: 2em; box-shadow: 0; font-size: 18px">Задать
-                        вопрос
+                    <a href="#anchor4" class="btn1 " data-hcolor="#2a9e7d"
+                       style="color:#79b39d; border-radius: 2em; box-shadow: 0; font-size: 18px">Записаться</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section section117 clip_none bg_text"
+             style="background-color:#f8f8f8;padding-top:80px;padding-bottom:80px;" data-id="3207508" id="b_3207508"><a
+                name="anchor1"></a>
+            <div class="section_inner width1170">
+                <div class="arr_wrapper">
+                    <div class="arr1">
+                        <div data-link="" class="col_2 image1 border image_size_840x1200 border1"><img data-lazy='1'
+                                                                                                       data- data-lazy='1'
+                                                                                                       data-src="https://169580.lp.tobiz.net/img/420x600/95808bcf59dfa06960a56ebf01dd53ba.jpg"
+                                                                                                       srcset="https://169580.lp.tobiz.net/img/420x600/95808bcf59dfa06960a56ebf01dd53ba.jpg 1x, https://169580.lp.tobiz.net/img/840x1200/95808bcf59dfa06960a56ebf01dd53ba.jpg 2x"
+                                                                                                       width="420px"
+                                                                                                       height="600px"
+                                                                                                       loading="lazy"></div>
+                        <div class="col_2">
+                            <div class="descr1">
+                                <p><span style="font-size:40px"><strong><span style="color:#79b39d;">Н</span>есколько
+                                                слов обо мне</strong></span></p>
+                            </div>
+                            <div class="txt1"><span style="color:#333333"><strong></strong></span>
+                                <p><span style="font-size:17px;">Раздел рекомендуем не называть «О себе», а разделить
+                                            его на несколько блоков:</span>
+                                </p>
+                                <ul>
+                                    <li><span style="font-size:17px;">ключевые навыки и компетенции — описывают
+                                                профессиональный опыт, знания и умения;</span>
+                                    </li>
+                                    <li><span style="font-size:17px;">личностные качества — описывает характеристики
+                                                соискателя;</span>
+                                    </li>
+                                    <li><span style="font-size:17px;">дополнительная информация.</span></li>
+                                </ul>
+                                <p><span style="font-size:17px;">Рекрутеры рекомендуют обязательно заполнять эти блоки и
+                                            внимательно продумывать, что написать. Правильно заполненное резюме поможет
+                                            сделать выводы о вас не только, как о профессионале, но и личности в
+                                            целом.</span>
+                                </p>
+                                <p><span style="font-size:17px;"><br></span></p>
+                                <p><span style="font-size:17px;">В целом резюме преследует только одну цель –
+                                            заинтересовать потенциального работодателя, чтобы получить заветную вакансию.
+                                            Особенно важно заполнить раздел «О себе» тем, у кого трудового опыта не
+                                            достаточно.</span>
+                                </p>
+                                <p><span style="font-size:17px;"><br></span></p>
+                                <p><span style="font-size:17px;">Тогда нужно подключить все свое обаяние и сделать упор
+                                            на личные качества, которые могут стать бесценными для получения этой
+                                            работы.&nbsp;Обычно набор характеристик, которые содержатся в этом разделе
+                                            резюме, можно назвать стандартным.</span>
+                                </p><span style="color:#333333"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="popup_form">
-                        <div class="popup_form_inner"><!--noindex-->
-                            <div class="popup_form_close"></div>
-                            <div class="popup_form_title">Оставить заявку</div>
-                            <form action="handler.php" enctype="multipart/form-data" method="post">
-                                <div class="form1"><input type="hidden" name="Название формы" value="">
-                                    <div class="field">
-                                        <div class="field_title ">Введите имя</div>
-                                        <div class="field_description"></div>
-                                        <div class="field_input field_input_text"><input type="text"
-                                                                                         required="required"
-                                                                                         name="Введите имя"
-                                                                                         placeholder="Введите имя">
-                                        </div>
-                                    </div>
-                                    <div class="field" style="">
-                                        <div class="field_title ">Введите E-mail</div>
-                                        <div class="field_description"></div>
-                                        <div class="field_input field_input_email"><input type="email"
-                                                                                          required="required"
-                                                                                          name="Введите E-mail"
-                                                                                          placeholder="mail@mail.ru">
-                                        </div>
-                                    </div>
-                                    <div class="field" style="">
-                                        <div class="field_title ">Введите номер телефона</div>
-                                        <div class="field_description"></div>
-                                        <div class="field_input field_input_phone"><input type="text"
-                                                                                          pattern="[+)( .-]*[0-9]+[0-9+)( .-]*"
-                                                                                          minlength="6"
-                                                                                          required="required"
-                                                                                          name="Введите номер телефона"
-                                                                                          placeholder="xxx-xxx-xxx">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="field_input"><input type="submit" class="submit_btn surround"
-                                                                        data-hcolor="#2a9e7d" data-action="thanks"
-                                                                        data-metrica_event=""
-                                                                        data-fb_pixel="undefined"
-                                                                        data-vk_pixel="undefined"
-                                                                        data-gtag_event="undefined" data-url=""
-                                                                        data-amount="0"
-                                                                        data-product_name="undefined" value="Отправить"
-                                                                        style="background-color:#79b39d; border-radius: 2em; box-shadow: 0;; font-size: 18px;">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="popup_form_text">Нажимая на кнопку, Вы принимаете <a target="_blank"
-                                                                                             href="/?personal_data=1">Положение</a>
-                                и <a target="_blank" href="/?personal_data=2">Согласие</a> на обработку персональных
-                                данных.
-                            </div><!--/noindex-->
+                </div>
+            </div>
+        </div>
+
+        <div data-hcolor="#ff6600"
+             class="section section130 clip_none s_mode_c_icon mobile_col2 inner_width transparent_ico"
+             style="background-color:#ffffff;padding-top:80px;padding-bottom:80px;--tiles_radius:0px;--tiles_shadow:none;--bg_color:#ffffff;"
+             data-id="3207509" id="b_3207509"><a name="a_2410715"></a>
+            <div class="section_inner all_border"
+                 style="--icon_size:64px;--btn_fweight:300;--btn_fsize:18px;--item_title_fweight:400;">
+                <div class="title"><span style="font-size:40px"><strong><span style="font-family:montserrat"><span
+                        style="color:#79b39d;">П</span>рофессиональные навыки</span></strong></span></div>
+                <div class="sub_title"><span style="font-size:20px">Какими профессиональными навыками я владею</span>
+                </div>
+                <div class="catalog_items short_text count3 c_icon ">
+                    <div class="arr1">
+                        <div class="col_4">
+                            <div class="c_ico1 radius " style="background-image:url(/cicons/015-smartwatch.svg)"></div>
+                            <div class="title1"><span style="font-size:20px">Квалификация в области остеопатии</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arr1">
+                        <div class="col_4">
+                            <div class="c_ico1 radius " style="background-image:url(/cicons/044-mp3-player.svg)"></div>
+                            <div class="title1"><span style="font-size:20px">Снимание</span>
+                                <div><span style="font-size:20px">напряжения в теле</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arr1">
+                        <div class="col_4">
+                            <div class="c_ico1 radius " style="background-image:url(/cicons/026-browser.svg)"></div>
+                            <div class="title1"><span style="font-size:20px">Применение мягких методов
+                                        воздействия</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clip_none section section250 mode_2"
+             style="background-color:#ffffff;padding-top:80px;padding-bottom:80px;" data-id="3207513" id="b_3207513"><a
+                name="anchor4"></a>
+            <div class="section_inner all_border width1170">
+                <div class="title"><span style="font-size:40px"><strong><span style="font-family:montserrat"><span
+                        style="color:#79b39d;">К</span>ак проходит работа</span></strong></span></div>
+                <div class="sub_title"><span style="font-size:18px"></span><span style="font-size:20px;">Несколько слов
+                            о том, как я работаю</span><span style="font-size:18px"></span></div>
+                <div class="arr1">
+                    <div class="col_2">
+                        <div data-link="" class="image1 "><img data-lazy='1' data- data-lazy='1'
+                                                               data-src="https://169580.lp.tobiz.net/img/565x400/a1be3393c684d5462095b1b9210927ab.jpg"
+                                                               width="565px" height="400px" loading="lazy"></div>
+                        <div class="overlay_image_box">
+                            <div class="overlay_image_title title1"><span style="color:#424242"><span
+                                    style="font-size:20px"><strong>Осмотр тела пациента</strong></span></span></div>
+                            <div class="overlay_image_subtitle subtitle1">
+                                <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
+                                            – какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
+                                            случае на Вас работает количество материалов, качество может быть ниже уровня
+                                            гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
+                                            много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
+                                            тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
+                                            выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
+                                            лучше.</span><span style="font-size:17px"></span><br></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_2 last">
+                        <div data-link="" class="image2 "><img data-lazy='1' data- data-lazy='1'
+                                                               data-src="https://169580.lp.tobiz.net/img/565x400/8401dd1295f83ffdbf7e77eae3f1cbe3.jpg"
+                                                               width="565px" height="400px" loading="lazy" alt=""></div>
+                        <div class="overlay_image_box">
+                            <div class="overlay_image_title title2"><span style="color:#424242"><span
+                                    style="font-size:20px"><strong>Сбор данных</strong></span></span></div>
+                            <div class="overlay_image_subtitle subtitle2"><span style="font-size:17px"></span>
+                                <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
+                                            – какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
+                                            случае на Вас работает количество материалов, качество может быть ниже уровня
+                                            гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
+                                            много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
+                                            тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
+                                            выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
+                                            лучше.</span>
+                                </p><span style="font-size:17px"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="arr1">
+                    <div class="col_2">
+                        <div data-link="" class="image1 "><img data-lazy='1' data- data-lazy='1'
+                                                               data-src="https://169580.lp.tobiz.net/img/565x400/21fd408eab0032b543bf087539bd9acc.jpg"
+                                                               width="565px" height="400px" loading="lazy" alt=""></div>
+                        <div class="overlay_image_box">
+                            <div class="overlay_image_title title1"><span style="color:#424242"><span
+                                    style="font-size:20px"><strong>Массаж</strong></span></span></div>
+                            <div class="overlay_image_subtitle subtitle1">
+                                <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
+                                            – какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
+                                            случае на Вас работает количество материалов, качество может быть ниже уровня
+                                            гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
+                                            много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
+                                            тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
+                                            выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
+                                            лучше.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_2 last">
+                        <div data-link="" class="image2 "><img data-lazy='1' data- data-lazy='1'
+                                                               data-src="https://169580.lp.tobiz.net/img/565x400/ab304877a07d42bdf297350df3ce7bf6.jpg"
+                                                               width="565px" height="400px" loading="lazy" alt=""></div>
+                        <div class="overlay_image_box">
+                            <div class="overlay_image_title title2"><span style="color:#424242"><span
+                                    style="font-size:20px"><strong>Использование техник</strong></span></span></div>
+                            <div class="overlay_image_subtitle subtitle2">
+                                <p><span style="font-size:17px">Первый вопрос, который возникает при создании портфолио
+                                            – какие работы указывать? Если Вы – начинающий фрилансер, то – все. В этом
+                                            случае на Вас работает количество материалов, качество может быть ниже уровня
+                                            гуру. Но Вы показываете заказчику – у Вас уже есть выполненные проекты и их
+                                            много! Главное, чтобы опыт был. Если Вы – далеко не новичок и за плечами
+                                            тысяча-другая написанных новостей и статей или сотня запущенных сайтов, то
+                                            выбирайте интересные работы. Вы – профессионал, и знаете, что у Вас получилось
+                                            лучше.</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="popup_thanks">
-                <div class="popup_thanks_inner"><!--noindex-->
-                    <div class="popup_thanks_close">X</div>
-                    <div class="popup_thanks_title">Спасибо за заявку!</div>
-                    <div class="popup_thanks_text">Заявка отправлена. Наш менеджер свяжется с Вами в ближайшее
-                        время.
-                    </div><!--/noindex-->
-                </div>
-            </div>
         </div>
-    </div>
 
-    <div class="section section119" style="background-color:#f8f8f8;padding-top:30px;padding-bottom:30px"
-         data-id="3207515" id="b_3207515"><a name="a_2389516"></a>
-        <div class="section_inner width1170">
-            <div class="logo_img"><img data-lazy='1' data- data-lazy='1'
-                                       data-src="https://169580.lp.tobiz.net/img/200x0/8931021a06800374a05dadd19262b76f.png"
-                                       srcset="https://169580.lp.tobiz.net/img/200x0/8931021a06800374a05dadd19262b76f.png 1x, https://169580.lp.tobiz.net/img/400x0/8931021a06800374a05dadd19262b76f.png 2x"
-                                       loading="lazy"></div>
-            <div class="address-and-ua">
-                <div class="address1">ООО «Остеопат», 123456, г.Москва, ул. Центральная 1, офис 1 <br>ИНН
-                    1234567890
-                    ОГРН 123456789012
-                </div>
-                <div class="policy2">Политика конфиденциальности</div>
-            </div>
-            <div class="phone-and-address">
-                <div class="phone1 zphone show_phone_icon">+7 800 333 22 33</div>
-                <div class="text1">Звонок по России бесплатный</div>
-                <a target="_blank" href="https://tobiz.net/" class="tobiz_link ">Сделано на платформе TOBIZ.NET</a>
-                <div class="social_icons hidden icon-square"><a target="_blank" class="sn sn-vk link_vk"
-                                                                href=""></a><a target="_blank" style=""
-                                                                               class="sn sn-ins link_ins" href=""></a><a
-                        target="_blank" style="" class="sn sn-whatsup link_whatsup" href=""></a><a target="_blank"
-                                                                                                   style=""
-                                                                                                   class="sn sn-fb hidden link_fb"
-                                                                                                   href=""></a><a
-                        target="_blank" style=""
-                        class="sn sn-youtube link_youtube" href=""></a><a target="_blank" style=""
-                                                                          class="sn sn-vimeo link_vimeo" href=""></a><a
-                        target="_blank" style=""
-                        class="sn sn-rutube link_rutube" href="">
-                    <svg aria-hidden_="true" focusable="false" role="img" viewBox="0 0 20 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor"
-                              d="M13.9025 6H0V21H3.86952V16.1199H11.2841L14.6671 21H19L15.2695 16.0975C16.4281 15.9176 17.2622 15.4903 17.772 14.8156C18.2817 14.141 18.5366 13.0615 18.5366 11.6222V10.4978C18.5366 9.64318 18.444 8.96855 18.2817 8.45125C18.1195 7.93403 17.8415 7.48425 17.4476 7.07946C17.0305 6.69715 16.5671 6.42729 16.011 6.24737C15.4549 6.08995 14.7597 6 13.9025 6ZM13.2769 12.8141H3.86952V9.30582H13.2769C13.8098 9.30582 14.1805 9.3958 14.3659 9.55321C14.5512 9.71062 14.6671 10.003 14.6671 10.4303V11.6897C14.6671 12.1395 14.5512 12.4318 14.3659 12.5892C14.1805 12.7466 13.8098 12.8141 13.2769 12.8141Z">
-                        </path>
-                    </svg>
-                </a><a target="_blank" style="" class="sn sn-zen link_zen" href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.143 32.143" width="45" height="45">
-                        <path fill="currentColor"
-                              d="M19.172 19.172c-2.525 2.605 -2.71 5.855 -2.927 12.971 6.636 0 11.216 -0.023 13.58 -2.319 2.297 -2.364 2.319 -7.163 2.319 -13.58 -7.118 0.23 -10.366 0.402 -12.971 2.927M0 16.243c0 6.417 0.023 11.216 2.319 13.58 2.364 2.297 6.944 2.319 13.58 2.319 -0.23 -7.118 -0.402 -10.366 -2.927 -12.971 -2.605 -2.525 -5.855 -2.71 -12.971 -2.927M15.899 0C9.275 0 4.683 0.023 2.319 2.319 0.023 4.683 0 9.482 0 15.899c7.118 -0.23 10.366 -0.402 12.971 -2.927 2.525 -2.605 2.71 -5.855 2.927 -12.971m3.272 12.971C16.645 10.366 16.462 7.118 16.243 0c6.636 0 11.216 0.023 13.58 2.319 2.297 2.364 2.319 7.163 2.319 13.58 -7.118 -0.23 -10.366 -0.402 -12.971 -2.927">
-                        </path>
-                        <path fill="transparent"
-                              d="M32.143 16.243v-0.344c-7.118 -0.23 -10.366 -0.402 -12.971 -2.927 -2.525 -2.605 -2.71 -5.855 -2.927 -12.971h-0.344c-0.23 7.118 -0.402 10.366 -2.927 12.971 -2.605 2.525 -5.855 2.71 -12.971 2.927v0.344c7.118 0.23 10.366 0.402 12.971 2.927 2.525 2.605 2.71 5.855 2.927 12.971h0.344c0.23 -7.118 0.402 -10.366 2.927 -12.971 2.605 -2.525 5.855 -2.71 12.971 -2.927">
-                        </path>
-                    </svg>
-                </a><a target="_blank" style="" class="sn sn-o hidden link_o" href=""></a><a target="_blank"
-                                                                                             style=""
-                                                                                             class="sn sn-viber hidden link_viber"
-                                                                                             href="">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="viber"
-                         class="svg-inline--fa fa-viber fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 512 512">
-                        <path fill="currentColor"
-                              d="M444 49.9C431.3 38.2 379.9.9 265.3.4c0 0-135.1-8.1-200.9 52.3C27.8 89.3 14.9 143 13.5 209.5c-1.4 66.5-3.1 191.1 117 224.9h.1l-.1 51.6s-.8 20.9 13 25.1c16.6 5.2 26.4-10.7 42.3-27.8 8.7-9.4 20.7-23.2 29.8-33.7 82.2 6.9 145.3-8.9 152.5-11.2 16.6-5.4 110.5-17.4 125.7-142 15.8-128.6-7.6-209.8-49.8-246.5zM457.9 287c-12.9 104-89 110.6-103 115.1-6 1.9-61.5 15.7-131.2 11.2 0 0-52 62.7-68.2 79-5.3 5.3-11.1 4.8-11-5.7 0-6.9.4-85.7.4-85.7-.1 0-.1 0 0 0-101.8-28.2-95.8-134.3-94.7-189.8 1.1-55.5 11.6-101 42.6-131.6 55.7-50.5 170.4-43 170.4-43 96.9.4 143.3 29.6 154.1 39.4 35.7 30.6 53.9 103.8 40.6 211.1zm-139-80.8c.4 8.6-12.5 9.2-12.9.6-1.1-22-11.4-32.7-32.6-33.9-8.6-.5-7.8-13.4.7-12.9 27.9 1.5 43.4 17.5 44.8 46.2zm20.3 11.3c1-42.4-25.5-75.6-75.8-79.3-8.5-.6-7.6-13.5.9-12.9 58 4.2 88.9 44.1 87.8 92.5-.1 8.6-13.1 8.2-12.9-.3zm47 13.4c.1 8.6-12.9 8.7-12.9.1-.6-81.5-54.9-125.9-120.8-126.4-8.5-.1-8.5-12.9 0-12.9 73.7.5 133 51.4 133.7 139.2zM374.9 329v.2c-10.8 19-31 40-51.8 33.3l-.2-.3c-21.1-5.9-70.8-31.5-102.2-56.5-16.2-12.8-31-27.9-42.4-42.4-10.3-12.9-20.7-28.2-30.8-46.6-21.3-38.5-26-55.7-26-55.7-6.7-20.8 14.2-41 33.3-51.8h.2c9.2-4.8 18-3.2 23.9 3.9 0 0 12.4 14.8 17.7 22.1 5 6.8 11.7 17.7 15.2 23.8 6.1 10.9 2.3 22-3.7 26.6l-12 9.6c-6.1 4.9-5.3 14-5.3 14s17.8 67.3 84.3 84.3c0 0 9.1.8 14-5.3l9.6-12c4.6-6 15.7-9.8 26.6-3.7 14.7 8.3 33.4 21.2 45.8 32.9 7 5.7 8.6 14.4 3.8 23.6z">
-                        </path>
-                    </svg>
-                </a><a target="_blank" style="" class="sn sn-tg hidden link_tg" href=""></a>
+        <div data-hcolor="#ff6600" data-autoslide="0" class="section section126 size_900x700 clip_none"
+             style="background-color:#f8f8f8;padding-top:80px;padding-bottom:40px;" data-id="3207514" id="b_3207514"><a
+                name="anchor5"></a>
+            <div class="section_inner all_border width1170">
+                <div class="arr1">
+                    <div data-link="" class="image1 size_900x700"><img data-lazy='1' data- data-lazy='1'
+                                                                       data-src="https://169580.lp.tobiz.net/img/450x350/627f0ed91e1ed6701e9e0ec6af4277fd.jpg"
+                                                                       srcset="https://169580.lp.tobiz.net/img/450x350/627f0ed91e1ed6701e9e0ec6af4277fd.jpg 1x, https://169580.lp.tobiz.net/img/900x700/627f0ed91e1ed6701e9e0ec6af4277fd.jpg 2x"
+                                                                       width="450px" height="350px"></div>
+                    <div class="right size_900x700">
+                        <div class="title1">
+                            <div><span style="color:#424242"><strong><span
+                                    style="font-size:40px"></span></strong></span><span
+                                    style="color:#79b39d;"><strong><span
+                                    style="font-size:40px">З</span></strong></span><span
+                                    style="color:#424242"><strong><span style="font-size:40px">адайте мне
+                                                вопрос</span></strong></span></div>
+                        </div>
+
+                        <div class="txt1">
+                            <p><span style="font-size:17px">Иногда претенденты на должность выбиваются из шаблонных
+                                        вариантов, но это чаще всего является выгодным для желающих получить работу,
+                                        связанную с креативным мышлением или тем, кто хочет выделиться на фоне других заявок
+                                        на вакансию. Важно в этом случае соблюдать грань и не перейти ее.&nbsp;Каждый для
+                                        себя определяет самостоятельно, что хочет указать в разделе «О себе». Но рекрутеры
+                                        советуют избегать некоторых фраз, которых следует избегать. Правильные формулировки
+                                        и неверные мы собрали в таблицу.</span>
+                            </p>
+                        </div>
+                        <div class="btn1 surround " data-hcolor="#2a9e7d"
+                             style="background-color:#79b39d; border-radius: 2em; box-shadow: 0; font-size: 18px">Задать
+                            вопрос
+                        </div>
+                        <div class="popup_form">
+                            <div class="popup_form_inner"><!--noindex-->
+                                <div class="popup_form_close"></div>
+                                <div class="popup_form_title">Оставить заявку</div>
+                                <form action="handler.php" enctype="multipart/form-data" method="post">
+                                    <div class="form1"><input type="hidden" name="Название формы" value="">
+                                        <div class="field">
+                                            <div class="field_title ">Введите имя</div>
+                                            <div class="field_description"></div>
+                                            <div class="field_input field_input_text"><input type="text"
+                                                                                             required="required"
+                                                                                             name="Введите имя"
+                                                                                             placeholder="Введите имя">
+                                            </div>
+                                        </div>
+                                        <div class="field" style="">
+                                            <div class="field_title ">Введите E-mail</div>
+                                            <div class="field_description"></div>
+                                            <div class="field_input field_input_email"><input type="email"
+                                                                                              required="required"
+                                                                                              name="Введите E-mail"
+                                                                                              placeholder="mail@mail.ru">
+                                            </div>
+                                        </div>
+                                        <div class="field" style="">
+                                            <div class="field_title ">Введите номер телефона</div>
+                                            <div class="field_description"></div>
+                                            <div class="field_input field_input_phone"><input type="text"
+                                                                                              pattern="[+)( .-]*[0-9]+[0-9+)( .-]*"
+                                                                                              minlength="6"
+                                                                                              required="required"
+                                                                                              name="Введите номер телефона"
+                                                                                              placeholder="xxx-xxx-xxx">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="field_input"><input type="submit" class="submit_btn surround"
+                                                                            data-hcolor="#2a9e7d" data-action="thanks"
+                                                                            data-metrica_event=""
+                                                                            data-fb_pixel="undefined"
+                                                                            data-vk_pixel="undefined"
+                                                                            data-gtag_event="undefined" data-url=""
+                                                                            data-amount="0"
+                                                                            data-product_name="undefined" value="Отправить"
+                                                                            style="background-color:#79b39d; border-radius: 2em; box-shadow: 0;; font-size: 18px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="popup_form_text">Нажимая на кнопку, Вы принимаете <a target="_blank"
+                                                                                                 href="/?personal_data=1">Положение</a>
+                                    и <a target="_blank" href="/?personal_data=2">Согласие</a> на обработку персональных
+                                    данных.
+                                </div><!--/noindex-->
+                            </div>
+                        </div>
+                    </div>
                     <div class="clear"></div>
                 </div>
-            </div>
-            <div class="clear"></div>
-            <div class="policy2_popup">
-                <div class="policy2_title">Политика конфиденциальности</div>
-                <div class="policy2_body">
-                    <p>Данный сайт уважает Ваше право и соблюдает конфиденциальность при
-                        заполнении, передаче и хранении Ваших конфиденциальных сведений.<br>Размещение заявки на
-                        данном
-                        сайте означает Ваше согласие на обработку данных и дальнейшей передачи ваших контактных
-                        данных нашей
-                        компании.<br>Под персональными данными подразумевается информация, относящаяся к субъекту
-                        персональных данных, в частности имя, контактные реквизиты (адрес электронной почты) и иные
-                        данные,
-                        относимые Федеральным законом от 27 июля 2006 года № 152-ФЗ «О персональных данных» к
-                        категории
-                        персональных данных.<br>Целью обработки персональных данных является информирование об
-                        оказываемых
-                        услугах нашей компании.</p>
+                <div class="popup_thanks">
+                    <div class="popup_thanks_inner"><!--noindex-->
+                        <div class="popup_thanks_close">X</div>
+                        <div class="popup_thanks_title">Спасибо за заявку!</div>
+                        <div class="popup_thanks_text">Заявка отправлена. Наш менеджер свяжется с Вами в ближайшее
+                            время.
+                        </div><!--/noindex-->
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="section section119" style="background-color:#f8f8f8;padding-top:30px;padding-bottom:30px"
+             data-id="3207515" id="b_3207515"><a name="a_2389516"></a>
+            <div class="section_inner width1170">
+                <div class="logo_img"><img data-lazy='1' data- data-lazy='1'
+                                           data-src="https://169580.lp.tobiz.net/img/200x0/8931021a06800374a05dadd19262b76f.png"
+                                           srcset="https://169580.lp.tobiz.net/img/200x0/8931021a06800374a05dadd19262b76f.png 1x, https://169580.lp.tobiz.net/img/400x0/8931021a06800374a05dadd19262b76f.png 2x"
+                                           loading="lazy"></div>
+                <div class="address-and-ua">
+                    <div class="address1">ООО «Остеопат», 123456, г.Москва, ул. Центральная 1, офис 1 <br>ИНН
+                        1234567890
+                        ОГРН 123456789012
+                    </div>
+                    <div class="policy2">Политика конфиденциальности</div>
+                </div>
+                <div class="phone-and-address">
+                    <div class="phone1 zphone show_phone_icon">+7 800 333 22 33</div>
+                    <div class="text1">Звонок по России бесплатный</div>
+                    <a target="_blank" href="https://tobiz.net/" class="tobiz_link ">Сделано на платформе TOBIZ.NET</a>
+                    <div class="social_icons hidden icon-square"><a target="_blank" class="sn sn-vk link_vk"
+                                                                    href=""></a><a target="_blank" style=""
+                                                                                   class="sn sn-ins link_ins" href=""></a><a
+                            target="_blank" style="" class="sn sn-whatsup link_whatsup" href=""></a><a target="_blank"
+                                                                                                       style=""
+                                                                                                       class="sn sn-fb hidden link_fb"
+                                                                                                       href=""></a><a
+                            target="_blank" style=""
+                            class="sn sn-youtube link_youtube" href=""></a><a target="_blank" style=""
+                                                                              class="sn sn-vimeo link_vimeo" href=""></a><a
+                            target="_blank" style=""
+                            class="sn sn-rutube link_rutube" href="">
+                        <svg aria-hidden_="true" focusable="false" role="img" viewBox="0 0 20 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill="currentColor"
+                                  d="M13.9025 6H0V21H3.86952V16.1199H11.2841L14.6671 21H19L15.2695 16.0975C16.4281 15.9176 17.2622 15.4903 17.772 14.8156C18.2817 14.141 18.5366 13.0615 18.5366 11.6222V10.4978C18.5366 9.64318 18.444 8.96855 18.2817 8.45125C18.1195 7.93403 17.8415 7.48425 17.4476 7.07946C17.0305 6.69715 16.5671 6.42729 16.011 6.24737C15.4549 6.08995 14.7597 6 13.9025 6ZM13.2769 12.8141H3.86952V9.30582H13.2769C13.8098 9.30582 14.1805 9.3958 14.3659 9.55321C14.5512 9.71062 14.6671 10.003 14.6671 10.4303V11.6897C14.6671 12.1395 14.5512 12.4318 14.3659 12.5892C14.1805 12.7466 13.8098 12.8141 13.2769 12.8141Z">
+                            </path>
+                        </svg>
+                    </a><a target="_blank" style="" class="sn sn-zen link_zen" href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.143 32.143" width="45" height="45">
+                            <path fill="currentColor"
+                                  d="M19.172 19.172c-2.525 2.605 -2.71 5.855 -2.927 12.971 6.636 0 11.216 -0.023 13.58 -2.319 2.297 -2.364 2.319 -7.163 2.319 -13.58 -7.118 0.23 -10.366 0.402 -12.971 2.927M0 16.243c0 6.417 0.023 11.216 2.319 13.58 2.364 2.297 6.944 2.319 13.58 2.319 -0.23 -7.118 -0.402 -10.366 -2.927 -12.971 -2.605 -2.525 -5.855 -2.71 -12.971 -2.927M15.899 0C9.275 0 4.683 0.023 2.319 2.319 0.023 4.683 0 9.482 0 15.899c7.118 -0.23 10.366 -0.402 12.971 -2.927 2.525 -2.605 2.71 -5.855 2.927 -12.971m3.272 12.971C16.645 10.366 16.462 7.118 16.243 0c6.636 0 11.216 0.023 13.58 2.319 2.297 2.364 2.319 7.163 2.319 13.58 -7.118 -0.23 -10.366 -0.402 -12.971 -2.927">
+                            </path>
+                            <path fill="transparent"
+                                  d="M32.143 16.243v-0.344c-7.118 -0.23 -10.366 -0.402 -12.971 -2.927 -2.525 -2.605 -2.71 -5.855 -2.927 -12.971h-0.344c-0.23 7.118 -0.402 10.366 -2.927 12.971 -2.605 2.525 -5.855 2.71 -12.971 2.927v0.344c7.118 0.23 10.366 0.402 12.971 2.927 2.525 2.605 2.71 5.855 2.927 12.971h0.344c0.23 -7.118 0.402 -10.366 2.927 -12.971 2.605 -2.525 5.855 -2.71 12.971 -2.927">
+                            </path>
+                        </svg>
+                    </a><a target="_blank" style="" class="sn sn-o hidden link_o" href=""></a><a target="_blank"
+                                                                                                 style=""
+                                                                                                 class="sn sn-viber hidden link_viber"
+                                                                                                 href="">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="viber"
+                             class="svg-inline--fa fa-viber fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                  d="M444 49.9C431.3 38.2 379.9.9 265.3.4c0 0-135.1-8.1-200.9 52.3C27.8 89.3 14.9 143 13.5 209.5c-1.4 66.5-3.1 191.1 117 224.9h.1l-.1 51.6s-.8 20.9 13 25.1c16.6 5.2 26.4-10.7 42.3-27.8 8.7-9.4 20.7-23.2 29.8-33.7 82.2 6.9 145.3-8.9 152.5-11.2 16.6-5.4 110.5-17.4 125.7-142 15.8-128.6-7.6-209.8-49.8-246.5zM457.9 287c-12.9 104-89 110.6-103 115.1-6 1.9-61.5 15.7-131.2 11.2 0 0-52 62.7-68.2 79-5.3 5.3-11.1 4.8-11-5.7 0-6.9.4-85.7.4-85.7-.1 0-.1 0 0 0-101.8-28.2-95.8-134.3-94.7-189.8 1.1-55.5 11.6-101 42.6-131.6 55.7-50.5 170.4-43 170.4-43 96.9.4 143.3 29.6 154.1 39.4 35.7 30.6 53.9 103.8 40.6 211.1zm-139-80.8c.4 8.6-12.5 9.2-12.9.6-1.1-22-11.4-32.7-32.6-33.9-8.6-.5-7.8-13.4.7-12.9 27.9 1.5 43.4 17.5 44.8 46.2zm20.3 11.3c1-42.4-25.5-75.6-75.8-79.3-8.5-.6-7.6-13.5.9-12.9 58 4.2 88.9 44.1 87.8 92.5-.1 8.6-13.1 8.2-12.9-.3zm47 13.4c.1 8.6-12.9 8.7-12.9.1-.6-81.5-54.9-125.9-120.8-126.4-8.5-.1-8.5-12.9 0-12.9 73.7.5 133 51.4 133.7 139.2zM374.9 329v.2c-10.8 19-31 40-51.8 33.3l-.2-.3c-21.1-5.9-70.8-31.5-102.2-56.5-16.2-12.8-31-27.9-42.4-42.4-10.3-12.9-20.7-28.2-30.8-46.6-21.3-38.5-26-55.7-26-55.7-6.7-20.8 14.2-41 33.3-51.8h.2c9.2-4.8 18-3.2 23.9 3.9 0 0 12.4 14.8 17.7 22.1 5 6.8 11.7 17.7 15.2 23.8 6.1 10.9 2.3 22-3.7 26.6l-12 9.6c-6.1 4.9-5.3 14-5.3 14s17.8 67.3 84.3 84.3c0 0 9.1.8 14-5.3l9.6-12c4.6-6 15.7-9.8 26.6-3.7 14.7 8.3 33.4 21.2 45.8 32.9 7 5.7 8.6 14.4 3.8 23.6z">
+                            </path>
+                        </svg>
+                    </a><a target="_blank" style="" class="sn sn-tg hidden link_tg" href=""></a>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="policy2_popup">
+                    <div class="policy2_title">Политика конфиденциальности</div>
+                    <div class="policy2_body">
+                        <p>Данный сайт уважает Ваше право и соблюдает конфиденциальность при
+                            заполнении, передаче и хранении Ваших конфиденциальных сведений.<br>Размещение заявки на
+                            данном
+                            сайте означает Ваше согласие на обработку данных и дальнейшей передачи ваших контактных
+                            данных нашей
+                            компании.<br>Под персональными данными подразумевается информация, относящаяся к субъекту
+                            персональных данных, в частности имя, контактные реквизиты (адрес электронной почты) и иные
+                            данные,
+                            относимые Федеральным законом от 27 июля 2006 года № 152-ФЗ «О персональных данных» к
+                            категории
+                            персональных данных.<br>Целью обработки персональных данных является информирование об
+                            оказываемых
+                            услугах нашей компании.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-</div>
+    <script>
 
-<script>
+        (function () {
 
-    (function () {
+            var resources_css = [
+                'https://fonts.googleapis.com/css?family=Roboto&display=swap',
+                'https://fonts.googleapis.com/icon?family=Material+Icons&display=swap',
+                '/fonts/font-awesome-4.7.0/css/fa.min.css'
+            ];
+            var resource = [];
+            _.each(resources_css, function (element, index) {
+                resource[index] = document.createElement('link');
+                resource[index].setAttribute("rel", "stylesheet");
+                resource[index].setAttribute("href", element);
+                resource[index].setAttribute("type", "text/css");
 
-        var resources_css = [
-            'https://fonts.googleapis.com/css?family=Roboto&display=swap',
-            'https://fonts.googleapis.com/icon?family=Material+Icons&display=swap',
-            '/fonts/font-awesome-4.7.0/css/fa.min.css'
-        ];
-        var resource = [];
-        _.each(resources_css, function (element, index) {
-            resource[index] = document.createElement('link');
-            resource[index].setAttribute("rel", "stylesheet");
-            resource[index].setAttribute("href", element);
-            resource[index].setAttribute("type", "text/css");
+                var head = document.getElementsByTagName('head')[0];
+                head.appendChild(resource[index]);
 
-            var head = document.getElementsByTagName('head')[0];
-            head.appendChild(resource[index]);
+            });
 
-        });
+        })();
 
-    })();
+    </script>
 
-</script>
-
-<script type="text/javascript" src="/js/mask.min.js" defer></script>
-<script type="text/javascript" src="/js/lazyload.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
+    <script type="text/javascript" src="/js/mask.min.js" defer></script>
+    <script type="text/javascript" src="/js/lazyload.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
 
 </body>
 
